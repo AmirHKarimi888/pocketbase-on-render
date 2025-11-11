@@ -5,8 +5,10 @@ WORKDIR /app
 # Install dependencies
 RUN apk add --no-cache ca-certificates curl unzip
 
-# Download latest PocketBase release (linux amd64)
-RUN curl -L "https://github.com/pocketbase/pocketbase/releases/latest/download/pocketbase_linux_amd64.zip" -o pb.zip \
+# Download specific PocketBase version (avoid redirect issues)
+ENV PB_VERSION=0.22.15
+
+RUN curl -L "https://github.com/pocketbase/pocketbase/releases/download/v${PB_VERSION}/pocketbase_${PB_VERSION}_linux_amd64.zip" -o pb.zip \
     && unzip pb.zip \
     && rm pb.zip
 
