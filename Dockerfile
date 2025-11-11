@@ -2,13 +2,15 @@ FROM alpine:latest
 
 WORKDIR /app
 
-# Install SSL certificates
-RUN apk add --no-cache ca-certificates
+# Install dependencies
+RUN apk add --no-cache ca-certificates curl unzip
 
-# Copy PocketBase binary into image
-COPY pocketbase /app/pocketbase
+# Download latest PocketBase release (linux amd64)
+RUN curl -L "https://github.com/pocketbase/pocketbase/releases/latest/download/pocketbase_linux_amd64.zip" -o pb.zip \
+    && unzip pb.zip \
+    && rm pb.zip
 
-# Create data folder
+# Create data directory
 RUN mkdir /app/pb_data
 
 EXPOSE 8080
